@@ -110,14 +110,12 @@ export function hasGitAuthToken(secrets: string[]): boolean {
 
 export async function isAvailable(standalone?: boolean): Promise<boolean> {
   const cmd = getCommand([], standalone);
+  core.info(`STANDALONE? ${standalone}`);
   return await exec
     .getExecOutput(cmd.command, cmd.args, {
       ignoreReturnCode: true,
-      silent: false
     })
     .then(res => {
-      core.info(res.stdout);
-      core.info(res.stderr);
       if (res.stderr.length > 0 && res.exitCode != 0) {
         return false;
       }
@@ -125,7 +123,7 @@ export async function isAvailable(standalone?: boolean): Promise<boolean> {
     })
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .catch(error => {
-      core.info(error);
+      core.info(`HELLO? ${error}`);
       return false;
     });
 }
@@ -135,7 +133,6 @@ export async function getVersion(standalone?: boolean): Promise<string> {
   return await exec
     .getExecOutput(cmd.command, cmd.args, {
       ignoreReturnCode: true,
-      silent: true
     })
     .then(res => {
       if (res.stderr.length > 0 && res.exitCode != 0) {

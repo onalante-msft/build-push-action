@@ -73,7 +73,6 @@ describe('isAvailable', () => {
 
   // eslint-disable-next-line jest/no-standalone-expect
   expect(execSpy).toHaveBeenCalledWith(`docker`, ['buildx'], {
-    silent: true,
     ignoreReturnCode: true
   });
 });
@@ -84,7 +83,6 @@ describe('isAvailable standalone', () => {
 
   // eslint-disable-next-line jest/no-standalone-expect
   expect(execSpy).toHaveBeenCalledWith(`buildx`, [], {
-    silent: true,
     ignoreReturnCode: true
   });
 });
