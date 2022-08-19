@@ -2,6 +2,7 @@ import {parse} from 'csv-parse/sync';
 import fs from 'fs';
 import path from 'path';
 import * as semver from 'semver';
+import * as core from '@actions/core';
 import * as exec from '@actions/exec';
 
 import * as context from './context';
@@ -112,9 +113,11 @@ export async function isAvailable(standalone?: boolean): Promise<boolean> {
   return await exec
     .getExecOutput(cmd.command, cmd.args, {
       ignoreReturnCode: true,
-      silent: true
+      silent: false
     })
     .then(res => {
+      core.info(res.stdout);
+      core.info(res.stderr);
       if (res.stderr.length > 0 && res.exitCode != 0) {
         return false;
       }
@@ -122,6 +125,7 @@ export async function isAvailable(standalone?: boolean): Promise<boolean> {
     })
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .catch(error => {
+      core.info(error);
       return false;
     });
 }
